@@ -12,8 +12,9 @@ $legs = Get-Content ".\files\legs.txt"
 $abs = Get-Content ".\files\abs.txt"
 
 $backExercises = Randomise-Exercise -exercises $back
-$armExercises = Randomise-Exercise -exercises $back
-$legkExercises = Randomise-Exercise -exercises $back
-$abExercises = Randomise-Exercise -exercises $back
+$armExercises = Randomise-Exercise -exercises $arms
+$legkExercises = Randomise-Exercise -exercises $legs
+$abExercises = Randomise-Exercise -exercises $abs
 
+$backExercises[0..1]
 ## Send Email
