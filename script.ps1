@@ -1,7 +1,11 @@
-function Randomise-Exercise {
+function Generate-Workout {
     param (
-        [array]$exercises
+        [array]$routine
     )
+
+    $exercises = foreach($item in $routine){
+        "<li>$item</li>"
+    }
 
     return $exercises | Sort-Object {Get-Random}
 }
@@ -10,27 +14,48 @@ $arms = Get-Content ".\files\arms.txt"
 $back = Get-Content ".\files\back.txt"
 $legs = Get-Content ".\files\legs.txt"
 $abs = Get-Content ".\files\abs.txt"
+$chest = Get-Content ".\files\chest.txt"
 $date = Get-Date -Format "dd-MM-yyyy"
 
-$backExercises = Randomise-Exercise -exercises $back
-$armExercises = Randomise-Exercise -exercises $arms
-$legkExercises = Randomise-Exercise -exercises $legs
-$abExercises = Randomise-Exercise -exercises $abs
+$backWorkout = Generate-Workout -routine $back
+$armWorkout = Generate-Workout -routine $arms
+$legWorkout = Generate-Workout -routine $legs
+$abWorkout = Generate-Workout -routine $abs
+$chestWorkout = Generate-Workout -routine $abs
 
-$backExercises[0..1]
-## Send Email
+$
+
+# Send Email
 $username = <redacted>
 $password = <redacted> | ConvertTo-SecureString -AsPlainText -Force
 
 $body = @"
+    <h1>Gym Routine | $date</h1>
+    <h2>Legs</h2>
+    <ul>
+        $legWorkout
+    </ul>
+    <h2>Chest</h2>
+    <ul>
+        $chestWorkout
+    </ul>
     <h2>Back</h2>
     <ul>
-        <li>$backExercises</li>
-    </ul>    
+        $backWorkout
+    </ul>
+    <h2>Arms</h2>
+    <ul>
+        $armWorkout
+    </ul>
+    <h2>Abs</h2>
+    <ul>
+        $abWorkout
+    </ul>
+
 "@
 $email = @{
-    from = <redacted>
-    to = <redacted>
+    from = $username
+    to = $username
     subject = "Gym Routine | $date"
     smtpserver = "smtp.gmail.com"
     body = $body
