@@ -1,6 +1,7 @@
 function Generate-Workout {
     param (
-        [array]$routine
+        [array]$routine, 
+        [string]$bodyPart
     )
 
     $exercises = foreach($item in $routine){
@@ -21,11 +22,16 @@ $backWorkout = Generate-Workout -routine $back
 $armWorkout = Generate-Workout -routine $arms
 $legWorkout = Generate-Workout -routine $legs
 $abWorkout = Generate-Workout -routine $abs
-$chestWorkout = Generate-Workout -routine $abs
+$chestWorkout = Generate-Workout -routine $chest
 
-$
+$backPayload = $backWorkout[0..1]
+$armPayload = $armWorkout[0..1]
+$legPayload = $legWorkout[0..1]
+$abPayload = $abWorkout[0..1]
+$chestPayload = $chestWorkout[0..1]
 
-# Send Email
+
+#Send Email
 $username = <redacted>
 $password = <redacted> | ConvertTo-SecureString -AsPlainText -Force
 
@@ -33,23 +39,23 @@ $body = @"
     <h1>Gym Routine | $date</h1>
     <h2>Legs</h2>
     <ul>
-        $legWorkout
+        $legPayload
     </ul>
     <h2>Chest</h2>
     <ul>
-        $chestWorkout
+        $chestPayload
     </ul>
     <h2>Back</h2>
     <ul>
-        $backWorkout
+        $backPayload
     </ul>
     <h2>Arms</h2>
     <ul>
-        $armWorkout
+        $armPayload
     </ul>
     <h2>Abs</h2>
     <ul>
-        $abWorkout
+        $abPayload
     </ul>
 
 "@
